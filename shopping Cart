@@ -1,0 +1,119 @@
+"""You are building a simple online shopping cart system. Each product in the system is represented by a dictionary containing its name, price, and available quantity. Users can add products to their cart and view the items and total cost in the cart. The system should also check for available quantities before allowing a purchase.
+Write a Python program that implements the following features:
+Create a list of product dictionaries. Each dictionary contains the product name, price, and available quantity.
+Allow users to add products to their shopping cart. The cart can be a list of tuples, where each tuple contains the product name and quantity.
+Display the items and quantities in the cart along with the total cost."""
+
+
+# #Here we are defining the product Class to initialize the details of the product.
+# class Product:
+#     def __init__(self, **Data):#Name, Price, Available_Quantity):
+#         pass
+# #         self.Name=Name
+# #         self.Price=Price
+# #         self.Available_Quantity=Available_Quantity
+
+
+#Here we are defining the shopping_cart class and in the shopping cart class we are defining the methods like Add_to_cart, View_cart and Payment.
+class Shopping_Cart:
+    
+    def __init__(self):
+        self.cart=[] 
+        
+    def Add_to_Cart(self, product_name, Quantity):
+        if product_name['Available_Quantity']>=Quantity:
+            self.cart.append((product_name, Quantity))
+            product_name['Available_Quantity']-=Quantity
+            print(f"\n{Quantity} of the {product_name['Name']}'s are added to your cart!\n")
+        else:
+            print(f"Sorry!, There are only {product_name['Available_Quantity']} {product_name['Name']}'s available.")
+    
+    def View_Cart(self):
+        if len(self.cart)==0:
+            return f"Your Cart is empty : ( "
+        
+        print("\nYour cart : ")
+        total_cost=0
+        for product_name, Quantity in self.cart:
+            Item_cost= Quantity * product_name['Price']
+            total_cost+=Item_cost
+            print(f"    The cost of {Quantity} x {product_name['Name']} is : {Item_cost:.2f}$")
+        print(f"\nThe cost of your total cart items is: {total_cost:.2f}$")
+        return total_cost
+        
+
+    def Payment(self,View_Cart):
+        #total_cost=self.View_Cart()
+        Payment_Confirm=input(f"\nDo you want to Confirm your $ {total_cost:.2f} payment?   reply with (Yes/No) : ")
+        
+        if Payment_Confirm.lower() == "yes":
+            print("\nHurray!, Your Payment is confirmed. You will be receiving your products virtually....!\n")
+        
+        elif Payment_Confirm.lower() == "no":
+            print("\nSorry your order is not confirmed : (\n")
+
+        else:
+            print("Invalid Input\n")
+
+
+#Here we defining the Items(Objects) for the Product class.
+
+Items = [
+    {"Name": "Apple", "Price": 2.0, "Available_Quantity": 12},
+    {"Name": "Orange", "Price": 1.5, "Available_Quantity": 15},
+    {"Name": "Water Bottles", "Price": 1.0, "Available_Quantity": 10},
+    {"Name": "Kiwi", "Price": 1.0, "Available_Quantity": 15},
+    {"Name": "Banana", "Price": 0.25, "Available_Quantity": 50},
+    {"Name": "Papaya", "Price": 1.0, "Available_Quantity": 10},
+    {"Name": "Water Melon", "Price": 8, "Available_Quantity": 10},
+    {"Name": "Jack Fruit", "Price": 6, "Available_Quantity": 8}
+    
+    ]
+
+# Items=[Product("Apple",2.0,12),
+#        Product("Orange", 1.5,15),
+#        Product("Water Bottles",1.0,10),
+#        Product("Milk",3.0,8),
+#        Product("Bread",3.5,6),
+#        Product("Bananas",0.25, 20),
+#        Product("Grapes", 5, 10),
+#        Product("Kiwi", 1.5, 10)
+#        ]
+
+# for _ in Items:
+#     print(f"\n{_.Name}")
+#     print(_.Price)
+#     print(_.Available_Quantity)
+
+cart=Shopping_Cart()
+
+
+#Main Loop
+
+Total_Iterations=25
+Iterations=0 
+while Total_Iterations>Iterations:
+    print("Available Items : ")
+    for Index,Item in enumerate(Items):
+        print(f"{Index+1}. The Item {Item['Name']}'s of price {Item['Price']} are {Item['Available_Quantity']} available! ")
+    
+    Select=int(input("\nEnter the number to add to the cart (If you want to exit Enter '9') : "))
+
+    if Select==9:
+        print("\n Thank you for shopping.")
+        break
+#elif Select for Select in range(1,len(items)+1):
+    elif 1<=Select<=len(Items):
+        Selected_Item=Items[Select-1]
+        Quantity_to_Add=int(input(f"How many {Selected_Item['Name']}'s do you want to add to the cart ! : "))
+        cart.Add_to_Cart(Selected_Item, Quantity_to_Add)
+    else:
+        print("Invalid number, Enter a valid number.")
+
+    Iterations+=1
+if Total_Iterations==Iterations:    
+    print("\nYou've reached the Maximum limit of Iterations, The following is your total :  ")
+
+
+total_cost=cart.View_Cart()
+cart.Payment(total_cost)
